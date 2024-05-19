@@ -1,3 +1,25 @@
+// ===========================================================
+// 2024-05-19  Для реализации задания начнем создавать class
+//             методы в классе:
+//             1 получить длину массива
+//             2 инициализация массива числами арифметической прогрессии
+//               входные данные для инициализации массива:
+//               - первый элемент массива
+//               - шаг прогресии (монотонность арифметической прогресии)
+//
+class IntArray {
+    // Вопрос: как инициализировать массив при создании класса
+    //         с целочисленными значениями определенного
+    //         размера, например 100 эл-тов, 1000 эл-тов и т.д.
+    static Integer[] intInsideArray = new Integer[1000];
+
+    // Методы
+    public static int length() {
+        int length = intInsideArray.length;
+        return length;
+    }
+}
+
 public class Array01 {
     public static void main(String[] args) {
         Integer[] intArray = new Integer[500000];
@@ -33,5 +55,11 @@ public class Array01 {
         sumLong = 0;
         sumLong = ((long)(intArray[0] + intArray[intArray.length - 1])*intArray.length)/2;
         System.out.println("2. Сумма всех элементов массива = " + sumLong );
+
+        // Начинаем использовать новый класс
+        System.out.println("=========================================");
+        System.out.println("Начинаем использование созданного класса.");
+        IntArray intArray1 = new IntArray();
+        System.out.println("Длина созданного массива = "+intArray1.length());
     }
 }
