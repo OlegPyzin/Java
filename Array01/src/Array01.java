@@ -28,6 +28,8 @@ public class Array01 {
         }
         System.out.println("1. Сумма всех элементов массива = " + sumLong );
         // Подсчет суммы элементов массива используя закон математики
+        // для арифметической прогрессии
+        // Условие: все элементы массива упорядочены по возрастанию/уменьшению
         sumLong = 0;
         sumLong = ((long)(intArray[0] + intArray[intArray.length - 1])*intArray.length)/2;
         System.out.println("2. Сумма всех элементов массива = " + sumLong );
