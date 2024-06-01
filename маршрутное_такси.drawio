@@ -1,0 +1,19 @@
+<mxfile host="app.diagrams.net" modified="2024-06-01T10:51:50.494Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Safari/605.1.15" etag="3Rxw6Q6ksOEAmB3G_Xt1" version="24.4.13" type="github">
+  <diagram name="Страница — 1" id="yDxt1b4h_l7rGUwagy35">
+    <mxGraphModel dx="899" dy="572" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="9KsucO-G9pVW__VIFewi-1" value="БАНК" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="70" y="40" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9KsucO-G9pVW__VIFewi-8" value="&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Перевозчик&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="40" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="9KsucO-G9pVW__VIFewi-9" value="Страховая компания" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="40" width="200" height="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
