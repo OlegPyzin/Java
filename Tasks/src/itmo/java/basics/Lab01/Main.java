@@ -19,9 +19,9 @@ public class Main {
         System.out.println(resultFirst);
 
         int number = 10500;
-        int result;
+        double result;
 
-        result = (number / 10) / 10;
+        result = ( (double)number/ 10) / 10;
         System.out.println(result);
 
         double varFirst = 3.6;
