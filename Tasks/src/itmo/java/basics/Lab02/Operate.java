@@ -72,17 +72,17 @@ public class Operate {
         return result;
     }
 
-    public int division(int theFirst, int theSecond) {
-        int result;
+    public double division(int theFirst, int theSecond) {
+        double result;
 
-        result = theFirst / theSecond;
+        result = (double) theFirst / theSecond;
         return result;
     }
 
-    public long division(long theFirst, long theSecond) {
-        long result;
+    public double division(long theFirst, long theSecond) {
+        double result;
 
-        result = theFirst / theSecond;
+        result = (double) theFirst / theSecond;
         return result;
     }
 

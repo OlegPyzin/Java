@@ -23,15 +23,36 @@
  *
  * На данный момент система множителей применяемых для обозначения оперативной памяти
  * не изменилась и все так же используется 2 в N степени.
+ * ===================================================================================
+ * Методы:
+ * String getBrand()
+ * void setBrand( String )
+ * String getTypeOperatingSystem()
+ * void setTypeOperatingSystem( String )
+ * String getCpu()
+ * void setCpu( String )
+ * long getRam()        - long -> размер оперативной памяти в гигабайтах
+ * void setRam( long )  - long -> размер оперативной памяти в гигабайтах
+ * String getTypeOfDisk()
+ * void setTypeOfDisk( String )
+ * void setSizeOfDisk( long )
+ * void setSizeOfDiskIt( long )
+ * double getSizeOfDisk()    - возвращает размер диска в Гб в общепринятой системе измерений
+ * double getSizeOfDiskIt()  - возвращает размер диска в Гб принятой в IT индустрии
+ * String getScreen()
+ * void setScreen( String )
+ * Long getPrice()
+ * void setPrice( Long )
  */
+
 package itmo.java.basics.Lab02;
 
 public class PersonnelComputer {
     private String brand;
     private String typeOperatingSystem;
     private String cpu;
-    private long ram;
-    private long sizeOfDisk;
+    private long ram; // size of RAM in bytes
+    private long sizeOfDisk; // size of disk in bytes
     private String typeOfDisk;
     private String screen;
     private Long price;
@@ -45,14 +66,108 @@ public class PersonnelComputer {
         this.cpu = cpu;
         this.typeOfDisk = typeOfDisk;
         this.sizeOfDisk = sizeOfDisk;
-        this.ram = ram;
+        this.ram = ram * 1024 * 1024 * 1024;
         this.screen = screen;
+        this.price = price;
+    }
+
+    public String getBrand() {
+        return this.brand;
+    }
+
+    public void setBrand( String brand ) {
+        this.brand = brand;
+    }
+
+    public String getTypeOperatingSystem() {
+        return this.typeOperatingSystem;
+    }
+
+    public void setTypeOperatingSystem( String os ) {
+        this.typeOperatingSystem = os;
+    }
+
+    public String getCpu() {
+        return this.cpu;
+    }
+
+    public void setCpu( String cpu ) {
+        this.cpu = cpu;
+    }
+
+    public long getRam() {
+        long result;
+
+        if( this.ram > 0 )
+            result = this.ram / 1073741824L;
+        else
+            result = this.ram;
+
+        return result;
+    }
+
+    public void setRam( long ram ) {
+        this.ram = ram * 1073741824L;
+    }
+
+    public String getTypeOfDisk() {
+        return this.typeOfDisk;
+    }
+
+    public void setTypeOfDisk( String disk ) {
+        this.typeOfDisk = disk;
+    }
+
+    public double getSizeOfDisk() {
+        double result;
+
+        if( this.sizeOfDisk > 0)
+            result = (double) this.sizeOfDisk / 1000000000L;
+        else
+            result = (double) this.sizeOfDisk;
+
+        return result;
+    }
+
+    public double getSizeOfDiskIt() {
+        double result;
+
+        if( this.sizeOfDisk > 0)
+            result = (double) this.sizeOfDisk / 1073741824L;
+        else
+            result = (double) this.sizeOfDisk;
+
+        return result;
+    }
+
+    public void setSizeOfDisk( long size ) {
+        this.sizeOfDisk = size * 1000000000L;
+    }
+
+    public void setSizeOfDiskIt( long size ) {
+        this.sizeOfDisk = size * 1073741824L;
+    }
+
+    public String getScreen() {
+        return this.screen;
+    }
+
+    public void setScreen( String resolutions ) {
+        this.screen = resolutions;
+    }
+
+    public Long getPrice() {
+        return this.price;
+    }
+
+    public void setPrice( Long price ) {
         this.price = price;
     }
 
     @Override
     public String toString() {
         return  "PC {" +
+                "Price=" + price + " " +
                 "brand=\"" + brand + '\"' + " " +
                 "Raw of screen=\"" + screen + "\"" + " " +
                 "OS=\"" + typeOperatingSystem + '\"' + " " +
