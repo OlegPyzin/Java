@@ -64,6 +64,8 @@ public class LaboratoryFourth {
             }
         }
 
+        System.out.println( "Пункт 3 части второй задания" );
+        System.out.println( "===================================================================" );
         System.out.print( "Array 1: [" );
         length = intArray02.length;
 
@@ -75,8 +77,6 @@ public class LaboratoryFourth {
             }
         }
 
-        System.out.println( "Пункт 3 части второй задания" );
-        System.out.println( "===================================================================" );
         intArray01 = partTwo.changeFirstLast( intArray02 );
         System.out.print( "Array 2: [" );
         length = intArray01.length;
