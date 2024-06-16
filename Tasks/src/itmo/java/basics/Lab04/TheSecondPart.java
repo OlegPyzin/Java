@@ -55,7 +55,11 @@ public class TheSecondPart {
                 break;
             }
         }
-        return index;
+        if (index > 0) {
+            return array[index];
+        } else {
+            return 0;
+        }
     }
 
     public int[] fillRandom(int size, int range) {

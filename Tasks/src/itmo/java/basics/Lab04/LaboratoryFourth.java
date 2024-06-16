@@ -109,12 +109,10 @@ public class LaboratoryFourth {
         System.out.println( "Пункт 4 части второй задания" );
 
         Integer intArray[] = new Integer[] { 1, 2, 3, 1, 2, 4 };
-        int index = partTwo.findUnique( intArray );
-        System.out.println( index >= 0 ? intArray[index] : "Нет уникального числа." );
+        System.out.println( "Уникальное число: " + partTwo.findUnique( intArray ) );
 
         Integer intArray1[] = new Integer[] { 1, 3, 2, 1, 3, 2, 8, 8 };
-        index = partTwo.findUnique( intArray1 );
-        System.out.println( index >= 0 ? intArray1[index] : "Нет уникального числа." );
+        System.out.println( "Уникальное число: " + partTwo.findUnique( intArray1 ) );
 
 
         System.out.println( "===================================================================" );

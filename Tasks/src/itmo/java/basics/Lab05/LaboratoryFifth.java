@@ -5,6 +5,12 @@ public class LaboratoryFifth {
 
         StudyString studyString = new StudyString();
 
+        String str = studyString.findLongWord("Привет дорогой Джон");
+        System.out.println( "Самое длинное слово = [" + str + "]" );
+
+        str = studyString.findLongWord("Написать метод для поиска самого дддддлинного слова в тексте.");
+        System.out.println( "Самое длинное слово = [" + str + "]" );
+
         String test = new String("obalabo");
         System.out.println( studyString.isPolindrom( test ) ? "Полиндром" : "Не полиндром" );
 
@@ -14,11 +20,6 @@ public class LaboratoryFifth {
         test = "павлилвап";
         System.out.println( studyString.isPolindrom( test ) ? "Полиндром" : "Не полиндром" );
 
-        int len = studyString.findLongWord("Привет дорогой Джон");
-        System.out.println( "Длина самого длинного слова = " + len );
-
-        len = studyString.findLongWord("Написать метод для поиска самого дддддлинного слова в тексте.");
-        System.out.println( "Длина самого длинного слова = " + len );
 
         test = "Напишите метод, заменяющий бяка в тексте все бяка вхождения слова «бяка» на «[вырезано цензурой]»";
 
@@ -28,7 +29,10 @@ public class LaboratoryFifth {
 
         test = "This is a test string";
         System.out.println( "[" + studyString.reverseWords( test ) +"]" );
+        System.out.println( "[" + studyString.reverseWordsSecond( test ) +"]" );
+
 
         System.out.println( "[" + studyString.reverseWords("Hello World" ) +"]" );
+        System.out.println( "[" + studyString.reverseWordsSecond("Hello World" ) +"]" );
     }
 }
