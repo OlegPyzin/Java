@@ -1,79 +1,70 @@
 package itmo.java.basics.Lab04;
 import java.util.Scanner;
 import java.util.Random;
-import java.util.Arrays;
 
 public class TheSecondPart {
 
-    public boolean sorted( Integer array[] ) {
-        int i;
-        int length;
+    public boolean sorted(Integer array[]) {
+        int length = array.length - 1;
 
-        length = array.length - 1;
-
-        for( i=0 ; i < length; i++ ) {
-            if( array[i] > array[i+1] ) {
+        for (int i = 0; i < length; i++) {
+            if (array[i] > array[i + 1]) {
                 return false;
             }
         }
-
         return true;
     }
 
-    public Integer[] initializeArray( int value ) {
-        int i;
+    public Integer[] initializeArray() {
 
         Scanner getHuman = new Scanner(System.in);
         System.out.println("Input array length: ");
-        value = getHuman.nextInt();
+        int value = getHuman.nextInt();
 
         Integer array[] = new Integer[value];
 
         System.out.println("Numbers of array:");
-        for (i = 0; i < value; i++) {
+        for (int i = 0; i < value; i++) {
             array[i] = getHuman.nextInt();
         }
         return array;
     }
 
-    public Integer[] changeFirstLast( Integer array[] ) {
-        int value;
+    public Integer[] changeFirstLast(Integer array[]) {
+        int value = array[0];
 
-        value = array[0];
-        array[0] = array[ array.length -1 ];
-        array[ array.length -1 ] = value;
+        array[0] = array[array.length - 1];
+        array[array.length - 1] = value;
 
         return array;
     }
 
-    public int findUnique( Integer array[] ) {
-        int unique = -1; // если не найдено уникальное число в массиве возвращаем отрицательное число
-        int i;
+    public int findUnique(Integer array[]) {
+        int index = -1; // если не найдено уникальное число в массиве возвращаем отрицательный значение индекса
         int j;
         int length = array.length;
 
-        for( i=0; i < length; i++ ) {
-            for( j=0; j < length; j++ ) {
-                if( array[i] == array[j] && i != j ) {
+        for (int i = 0; i < length; i++) {
+            for (j = 0; j < length; j++) {
+                if (array[i] == array[j] && i != j) {
                     break;
                 }
             }
-            if( j == length ) {
-                unique = i;
+            if (j == length) {
+                index = i;
                 break;
             }
         }
-        return unique;
+        return index;
     }
 
-    public int[] fillRandom( int size, int range ) {
+    public int[] fillRandom(int size, int range) {
 
         int[] array = new int[size];
         Random random = new Random();
-        int i;
 
-        for( i=0; i < size; i++ ) {
-            array[i] = random.nextInt( range );
+        for (int i = 0; i < size; i++) {
+            array[i] = random.nextInt(range);
         }
         return array;
     }
