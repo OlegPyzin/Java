@@ -13,7 +13,6 @@ public class Basic {
 
     public void setInfo() {
         System.out.println("Введите возраст:");
-        this.someInfo = getHuman.nextLine();
-        age = Float.parseFloat(this.someInfo);
+        age = getHuman.nextFloat();
     }
 }
