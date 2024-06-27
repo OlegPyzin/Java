@@ -14,4 +14,17 @@ public class User {
     public String getName() {
         return this.name;
     }
+
+    @Override
+    public int hashCode() {
+        return this.name.toUpperCase().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.hashCode() == this.hashCode()) {
+            return true;
+        }
+        return false;
+    }
 }
