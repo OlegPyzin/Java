@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 
 public class Files {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         System.out.println("На моем компьютере используются следующие файловые системы:");
         getFsType();
 
@@ -52,27 +52,52 @@ public class Files {
         }
     }
 
-    public static List<String> readFromFile(String fileName) throws Exception {
+    public static List<String> readFromFile(String fileName) {
         List<String> contentFile = new ArrayList<>();
-        FileReader fr = new FileReader(fileName);
-        Scanner getFile = new Scanner(fr);
+        FileReader fr = null;
+        try {
+            fr = new FileReader(fileName);
+            Scanner getFile = new Scanner(fr);
 
-        while (getFile.hasNextLine()) {
-            contentFile.add(getFile.nextLine());
+            while (getFile.hasNextLine()) {
+                contentFile.add(getFile.nextLine());
+            }
+        } catch (IOException msg) {
+            System.err.println("Возникли ошибки при чтении из файла.");
+            System.err.println(msg.getMessage());
+        } finally {
+            try {
+                if (fr != null) {
+                    fr.close();
+                }
+            } catch(IOException msg) {
+                System.err.println(msg.getMessage());
+            }
         }
-        fr.close();
 
         return contentFile;
     }
 
-    public static void writeToFile(String fileName, String string, boolean append) throws Exception {
-        FileWriter fw = new FileWriter(fileName, append);
-
-        fw.write(string);
-        fw.close();
+    public static void writeToFile(String fileName, String string, boolean append) {
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(fileName, append);
+            fw.write(string);
+        } catch (IOException msg) {
+            System.err.println("Возникли ошибки при записи в файл.");
+            System.err.println(msg.getMessage());
+        } finally {
+            try {
+                if(fw!=null) {
+                    fw.close();
+                }
+            } catch (IOException msg) {
+                System.err.println(msg.getMessage());
+            }
+        }
     }
 
-    public static void concatFiles(String theFirstFile, String theSecondFile, String concatFile) throws Exception {
+    public static void concatFiles(String theFirstFile, String theSecondFile, String concatFile) {
         List<String> tmp = readFromFile(theFirstFile);
 
         for (String line : tmp) {
@@ -85,7 +110,7 @@ public class Files {
         }
     }
 
-    public static void replaceSomeLetters(String fileName, String regex, String charToReplace) throws Exception {
+    public static void replaceSomeLetters(String fileName, String regex, String charToReplace) {
         List<String> tmp = readFromFile(fileName);
 
         // Очищаем содержимое файла
