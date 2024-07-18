@@ -23,13 +23,25 @@ class JobThread3 extends Thread {
 
     @Override
     public void run() {
-        for(int i=0; i<1000; i++) {
-            // Для тестирования пусть нить немного поспит
-            try {
-                Thread.sleep(new Random(0).nextLong(200));
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+        for (int i = 0; i < 1000; i++) {
+            synchronized (cnt) {
+                cnt.increment();
             }
+        }
+    }
+}
+
+class CThread extends Thread{
+    Counter cnt;
+
+    public CThread(ThreadGroup tg, String tn, Counter cnt) {
+        super(tg, tn);
+        this.cnt = cnt;
+    }
+
+    public void run() {
+        for (int i = 0; i < 1000; i++) {
+            // Для тестирования пусть нить немного поспит
             synchronized (cnt) {
                 cnt.increment();
             }
@@ -50,24 +62,46 @@ public class TheThird {
 
         System.out.println("Счетчик = " + cnt.getCount() );
 
-        for(int i=0; i<jobs.length; i++) {
+        for (int i = 0; i < jobs.length; i++) {
             jobs[i] = new JobThread3(Thread.currentThread(), cnt);
         }
 
         // Стартуем нити
-        for(int i=0; i<jobs.length; i++) {
+        for (int i = 0; i < jobs.length; i++) {
             jobs[i].start();
         }
 
         // Main нить ждет завершения всех других нитей
-        for(int i=0; i<jobs.length; i++) {
-            try{
+        for (int i = 0; i < jobs.length; i++) {
+            try {
                 jobs[i].join();
-            } catch(InterruptedException ie) {
+            } catch (InterruptedException ie) {
                 throw new RuntimeException(ie);
             }
         }
 
         System.out.println("Счетчик = " + cnt.getCount() );
+
+        System.out.println("+-------------------------------------------------+");
+        System.out.println("+ Второй вариант ожидания завершения всех threads +");
+        System.out.println("+-------------------------------------------------+");
+
+        Counter count = new Counter();
+
+        ThreadGroup exampGroup = new ThreadGroup("Thread Laboratory");
+        CThread exampThread;
+
+        System.out.println("Счетчик = " + count.getCount() );
+
+        for (int i = 0; i < 100; i++) {
+            exampThread = new CThread(exampGroup, "Thread-" + i, count);
+            exampThread.start();
+        }
+
+        while(exampGroup.activeCount() > 0 ) {
+            // Nothing to do, simply waiting for finish all launched threads
+        }
+
+        System.out.println("Счетчик = " + count.getCount() );
     }
 }
