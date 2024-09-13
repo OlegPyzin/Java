@@ -5,7 +5,7 @@ public enum Vendor {
     ISUSI,
     LEXUS,
     SUBARU,
-    BMV,
+    BMW,
     MERSEDESS,
     JAGUAR,
     MAZERATTI,

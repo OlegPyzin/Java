@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Getter
@@ -22,4 +23,6 @@ public class CarInfoRequest {
     Date   dateMade;
     Date   dateSold;
     Vendor vendor;
+    BigDecimal price;
+    String regNumber;
 }

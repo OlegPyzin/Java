@@ -27,19 +27,19 @@ public class CarsController {
         return carService.addCars(request);
     }
 
-    @GetMapping("/{modelVIN}")
-    public CarInfoResponse getCar(@PathVariable String modelVIN) {
-        return carService.getCars(modelVIN);
+    @GetMapping("/{id}")
+    public CarInfoResponse getCar(@PathVariable Long id) {
+        return carService.getCars(id);
     }
 
-    @PutMapping("/{modelVIN}")
-    public CarInfoResponse updateCar(@PathVariable String modelVIN, @RequestBody CarInfoRequest request) {
-        return carService.updateCar(modelVIN, request);
+    @PutMapping("/{id}")
+    public CarInfoResponse updateCar(@PathVariable Long id, @RequestBody CarInfoRequest request) {
+        return carService.updateCar(id, request);
     }
 
-    @DeleteMapping("/{modelVIN}")
-    public void deleteCar(@PathVariable String modelVIN) {
-        carService.deleteCar(modelVIN);
+    @DeleteMapping("/{id}")
+    public void deleteCar(@PathVariable Long id) {
+        carService.deleteCar(id);
     }
 
     @GetMapping("/all")

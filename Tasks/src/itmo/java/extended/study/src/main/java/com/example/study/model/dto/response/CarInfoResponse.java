@@ -14,5 +14,5 @@ import lombok.experimental.SuperBuilder;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 
 public class CarInfoResponse extends CarInfoRequest {
-    String regNumber;
+    Long id;
 }
