@@ -4,6 +4,7 @@ import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.ClientRepository;
 import com.example.study.model.dto.request.ClientInfoRequest;
+import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.dto.response.ClientInfoResponse;
 import com.example.study.model.enums.ClientStatus;
 import com.example.study.model.enums.Gender;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -156,4 +158,14 @@ public class ClientService {
         return clientRepository.save(client);
     }
 
+    public List<CarInfoResponse> getClientCars(Long id) {
+        Client client = getClientFromDB(id);
+        if(client != null) {
+            List<Car> cars = client.getCars();
+            return cars.stream()
+                    .map(car -> mapper.convertValue(car, CarInfoResponse.class))
+                    .collect(Collectors.toList());
+        }
+        return null;
+    }
 }

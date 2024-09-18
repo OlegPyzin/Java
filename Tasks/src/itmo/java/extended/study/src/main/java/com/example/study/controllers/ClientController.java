@@ -1,6 +1,7 @@
 package com.example.study.controllers;
 
 import com.example.study.model.dto.request.ClientInfoRequest;
+import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.dto.response.ClientInfoResponse;
 import com.example.study.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,4 +56,9 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
+    @GetMapping("/{id}/listcars")
+    @Operation(summary = "Информация об автомобилях клиента")
+    public List<CarInfoResponse> getClientCars(@PathVariable Long id) {
+        return clientService.getClientCars(id);
+    }
 }
