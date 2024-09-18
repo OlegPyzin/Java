@@ -1,0 +1,129 @@
+Client Area
+{
+    "lastName":"John",
+    "firstName":"Black",
+    "middleName":"B.",
+    "email":"john@test.com",
+    "phone":"123456789",
+    "address":"USA, Colorado",
+    "password":"qwerty",
+    "age":35,
+    "gender":"MALE"
+}
+
+У этого клиента меняем адрес на "USA, New York"
+{
+    "lastName":"Lisa",
+    "firstName":"White",
+    "middleName":"J.",
+    "email":"lisa@test.com",
+    "phone":"5234656789",
+    "address":"USA, California",
+    "password":"asdfgh",
+    "age":28,
+    "gender":"FEMALE"
+}
+
+{
+    "lastName":"Sten",
+    "firstName":"Buch",
+    "middleName":"C.",
+    "email":"sten@test.com",
+    "phone":"0512456789",
+    "address":"USA, Texas",
+    "password":"zxcvbn",
+    "age":48,
+    "gender":"MALE"
+}
+
+{
+    "lastName":"Alice",
+    "firstName":"Green",
+    "middleName":"W.",
+    "email":"alice@test.com",
+    "phone":"523199956789",
+    "address":"USA, Virgine",
+    "password":"123456",
+    "age":38,
+    "gender":"FEMALE"
+}
+
+Car Area
+//- 1 -------------------------------------
+    Данные для замены:
+{
+    "dateSold": "2021-11-05T09:00:00.000+00:00",
+    "price": 3450000,
+    "regNumber": "а456рр90"
+ }
+{
+    "modelName": "Corolla",
+    "modelVIN": "JSQKA1234567788900",
+    "weight": 1200.0,
+    "color": "GREEN",
+    "dateMade": "2021-10-09T21:00:00.000+00:00",
+    "dateSold": null,
+    "vendor": "TOYOTA",
+    "price": null,
+    "regNumber": null
+}
+
+//- 5 -------------------------------------
+{
+    "modelName": "Corolla",
+    "modelVIN": "JSQKA1234567788900",
+    "weight": 1200,
+    "color": "GREEN",
+    "dateMade": "2021-10-09T21:00:00.000+00:00",
+    "dateSold": "2022-01-05T19:00:00.000+00:00",
+    "vendor": "TOYOTA",
+    "price": 3500000,
+    "regNumber": "а721зт78"
+}
+//- 2 -------------------------------------
+    Данные для замены:
+{
+    "regNumber": "к567ру178"
+}
+{
+    "modelName": "Punto",
+    "modelVIN": "JQHA23267519900",
+    "weight": 980,
+    "color": "WHITE",
+    "dateMade": "2023-11-18T21:00:00.000+00:00",
+    "dateSold": "2023-12-10T15:00:00.000+00:00",
+    "vendor": "FIAT",
+    "price": 2800000,
+    "regNumber": "к567ру178"
+}
+
+//- 3 -------------------------------------
+    Данные для замены:
+{
+    "regNumber": "с910вб98"
+}
+
+{
+    "modelName": "X1",
+    "modelVIN": "JBMWKA984237788900",
+    "weight": 1500,
+    "color": "RED",
+    "dateMade": "2023-09-09T11:00:00.000+00:00",
+    "dateSold": "2023-09-20T11:00:00.000+00:00",
+    "vendor": "BMW",
+    "price": 3900000,
+    "regNumber": "s910vb98"
+}
+
+//- 4 -------------------------------------
+{
+    "modelName": "Camry",
+    "modelVIN": "JTK234SB567788900",
+    "weight": 1500,
+    "color": "WHITE",
+    "dateMade": "2022-05-05T12:00:00.000+00:00",
+    "dateSold": "2022-06-05T19:00:00.000+00:00",
+    "vendor": "TOYOTA",
+    "price": 5500000,
+    "regNumber": "к123ми178"
+}
