@@ -1,6 +1,7 @@
 package com.example.study.model.db.entity;
 
 import com.example.study.model.enums.*;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -59,5 +60,6 @@ public class Client {
     ClientStatus status;
 
     @OneToMany
+    @JsonManagedReference(value = "driver_cars")
     List<Car> cars;
 }

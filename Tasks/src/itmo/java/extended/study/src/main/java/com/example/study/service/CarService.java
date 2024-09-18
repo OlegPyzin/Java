@@ -3,7 +3,9 @@ package com.example.study.service;
 import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.CarRepository;
+import com.example.study.model.db.repository.ClientRepository;
 import com.example.study.model.dto.request.CarInfoRequest;
+import com.example.study.model.dto.request.CarToClientRequest;
 import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.enums.CarStatus;
 import com.example.study.model.enums.ClientStatus;
@@ -13,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CarService {
+    private final ClientService clientService;
     private final CarRepository carRepository;
     private final ObjectMapper mapper;
 
@@ -80,5 +85,18 @@ public class CarService {
         return carRepository.findAll().stream()
                 .map(car -> mapper.convertValue(car, CarInfoResponse.class))
                 .collect(Collectors.toList());
+    }
+
+    public void addCar2Client(Long carId, CarToClientRequest request) {
+        Car car = getCarFromDB(carId);
+        if (car != null) {
+            Client client = clientService.getClientFromDB(request.getClientId());
+            if (client != null) {
+                client.getCars().add(car);
+                clientService.updateClientData(client);
+                car.setClient(client);
+                carRepository.save(car);
+            }
+        }
     }
 }

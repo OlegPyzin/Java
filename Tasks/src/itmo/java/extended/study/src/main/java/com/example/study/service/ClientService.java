@@ -1,16 +1,22 @@
 package com.example.study.service;
 
+import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.ClientRepository;
 import com.example.study.model.dto.request.ClientInfoRequest;
 import com.example.study.model.dto.response.ClientInfoResponse;
 import com.example.study.model.enums.ClientStatus;
+import com.example.study.model.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +41,20 @@ public class ClientService {
 
         Client saved = clientRepository.save(client);
 
+        // при реализации связей в БД один ко многим и многие к одному
+        // и заполнении соответствующей таблицы IDcars <-> IDclient
+        // в mapper.convertValue возникает бесконечная рекурсия
+        // Устранить данную ситуацию можно добавить следующие аннтотации
+        //  @JsonManagedReference
+        // Пример:
+        // @OneToMany
+        // @JsonManagedReference(value = "driver_cars")
+        // List<Car> cars;
+        // -------
+        // @ManyToOne
+        // @JsonBackReference(value = "driver_cars")
+        // Client client;
+
         return mapper.convertValue(saved, ClientInfoResponse.class);
 
         // Has been used before. To study and for a test
@@ -51,7 +71,7 @@ public class ClientService {
 //                .build();
     }
 
-    private Client getClientFromDB(Long id) {
+    public Client getClientFromDB(Long id) {
         return clientRepository.findById(id).orElse(null);
     }
 
@@ -64,14 +84,15 @@ public class ClientService {
         return mapper.convertValue(client, ClientInfoResponse.class);
         // Has been used before. To study and for a test
 //        return ClientInfoResponse.builder()
-//                .email("test@test.com")
-//                .age(35)
-//                .firstName("It's")
-//                .lastName("me")
-//                .gender(Gender.MALE)
-//                .phone("123456789")
-//                .address("Some place")
-//                .id(i++)
+//                .password(client.getPassword())
+//                .email(client.getEmail())
+//                .age(client.getAge())
+//                .firstName(client.getFirstName())
+//                .lastName(client.getLastName())
+//                .gender(client.getGender())
+//                .phone(client.getPhone())
+//                .address(client.getAddress())
+//                .id(client.getId())
 //                .build();
     }
 
@@ -130,4 +151,9 @@ public class ClientService {
                 .map(client -> mapper.convertValue(client, ClientInfoResponse.class))
                 .collect(Collectors.toList());
     }
+
+    public Client updateClientData(Client client) {
+        return clientRepository.save(client);
+    }
+
 }

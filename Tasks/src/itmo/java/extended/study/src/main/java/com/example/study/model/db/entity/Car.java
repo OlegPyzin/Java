@@ -1,6 +1,7 @@
 package com.example.study.model.db.entity;
 
 import com.example.study.model.enums.*;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,5 +63,6 @@ public class Car {
     CarStatus status;
 
     @ManyToOne
+    @JsonBackReference(value = "driver_cars")
     Client client;
 }
