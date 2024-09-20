@@ -3,20 +3,19 @@ package com.example.study.service;
 import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.CarRepository;
-import com.example.study.model.db.repository.ClientRepository;
 import com.example.study.model.dto.request.CarInfoRequest;
 import com.example.study.model.dto.request.CarToClientRequest;
 import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.enums.CarStatus;
 import com.example.study.model.enums.ClientStatus;
+import com.example.study.utils.PaginationUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,7 +80,7 @@ public class CarService {
         }
     }
 
-    public List<CarInfoResponse> getAllCar() {
+    public List<CarInfoResponse> getAllCars() {
         return carRepository.findAll().stream()
                 .map(car -> mapper.convertValue(car, CarInfoResponse.class))
                 .collect(Collectors.toList());
@@ -90,13 +89,38 @@ public class CarService {
     public void addCar2Client(Long carId, CarToClientRequest request) {
         Car car = getCarFromDB(carId);
         if (car != null) {
-            Client client = clientService.getClientFromDB(request.getClientId());
-            if (client != null) {
-                client.getCars().add(car);
-                clientService.updateClientData(client);
-                car.setClient(client);
-                carRepository.save(car);
+            if (car.getStatus() != CarStatus.FINISHED) {
+                Client client = clientService.getClientFromDB(request.getClientId());
+                if (client != null) {
+                    if (client.getStatus() != ClientStatus.DELETED) {
+                        client.getCars().add(car);
+                        clientService.updateClientData(client);
+                        car.setClient(client);
+                        carRepository.save(car);
+                    } else {
+                        // Подготовка для исключения что клиент имеет статус "Удаленный"
+                    }
+                } else {
+                    // Подготовка для исключения что автомобиль снят с обслуживания
+                }
             }
         }
+    }
+
+    public Page<CarInfoResponse> getAllCarsByPages(Integer page,
+                                                   Integer perPage,
+                                                   String sort,
+                                                   Sort.Direction sortDirection,
+                                                   String filter) {
+
+        Pageable pageRequest = PaginationUtil.getPageRequest(page, perPage, sort, sortDirection);
+
+        Page<Car> pageCars = carRepository.findAllByStatusNot(pageRequest, CarStatus.FINISHED);
+
+        List<CarInfoResponse> answer = pageCars.getContent().stream()
+                .map(car -> mapper.convertValue(car, CarInfoResponse.class))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(answer, pageRequest, pageCars.getTotalElements());
     }
 }

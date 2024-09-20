@@ -7,6 +7,8 @@ import com.example.study.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,8 +54,19 @@ public class ClientController {
 
     @GetMapping("/all")
     @Operation(summary = "Список клиентов")
-    public List<ClientInfoResponse> getAllClient() {
+    public List<ClientInfoResponse> getAllClients() {
         return clientService.getAllClients();
+    }
+
+    @GetMapping("/pages")
+    @Operation(summary = "Список клиентов по странично")
+    public Page<ClientInfoResponse> getAllClientsByPages(
+                                                    @RequestParam(defaultValue = "1") Integer page,
+                                                    @RequestParam(defaultValue = "10") Integer perPage,
+                                                    @RequestParam(defaultValue = "lastName") String sort,
+                                                    @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection,
+                                                    @RequestParam(required = false) String filter) {
+        return clientService.getAllClientsByPages(page, perPage, sort, sortDirection, filter);
     }
 
     @GetMapping("/{id}/listcars")

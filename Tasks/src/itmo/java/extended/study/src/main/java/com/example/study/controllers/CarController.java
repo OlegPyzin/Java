@@ -6,6 +6,8 @@ import com.example.study.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -51,8 +53,19 @@ public class CarController {
 
     @GetMapping("/all")
     @Operation(summary = "Список автомобилей")
-    public List<CarInfoResponse> getAllCar() {
-        return carService.getAllCar();
+    public List<CarInfoResponse> getAllCars() {
+        return carService.getAllCars();
+    }
+
+    @GetMapping("/pages")
+    @Operation(summary = "Список автомобилей по странично")
+    public Page<CarInfoResponse> getAllCarsByPages(@RequestParam(defaultValue = "1") Integer page,
+                                                   @RequestParam(defaultValue = "10") Integer perPage,
+                                                   @RequestParam(defaultValue = "vendor") String sort,
+                                                   @RequestParam(defaultValue = "ASC") Sort.Direction sortDirection,
+                                                   @RequestParam(required = false) String filter
+                                                   ) {
+        return carService.getAllCarsByPages(page, perPage, sort, sortDirection, filter);
     }
 
     @PostMapping("/{id}/addclient")

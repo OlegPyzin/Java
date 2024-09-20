@@ -8,12 +8,17 @@ import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.dto.response.ClientInfoResponse;
 import com.example.study.model.enums.ClientStatus;
 import com.example.study.model.enums.Gender;
+import com.example.study.utils.PaginationUtil;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.ManyToOne;
@@ -167,5 +172,22 @@ public class ClientService {
                     .collect(Collectors.toList());
         }
         return null;
+    }
+
+    public Page<ClientInfoResponse> getAllClientsByPages(Integer page,
+                                                         Integer perPage,
+                                                         String sort,
+                                                         Sort.Direction sortDirection,
+                                                         String filter) {
+
+        Pageable pageRequest = PaginationUtil.getPageRequest(page, perPage, sort, sortDirection);
+
+        Page<Client> pageClients = clientRepository.findAllByStatusNot(pageRequest, ClientStatus.DELETED);
+
+        List<ClientInfoResponse> answer = pageClients.getContent().stream()
+                .map(client -> mapper.convertValue(client, ClientInfoResponse.class))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(answer, pageRequest, pageClients.getTotalElements());
     }
 }
