@@ -1,13 +1,8 @@
 package com.example.study.utils;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-
-import java.awt.*;
-import java.awt.print.Pageable;
 
 @UtilityClass
 //@NoArgsConstructor(access = AccessLevel.PRIVATE)

@@ -1,5 +1,6 @@
 package com.example.study.service;
 
+import com.example.study.exceptions.CustomException;
 import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.CarRepository;
@@ -13,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -38,12 +40,12 @@ public class CarService {
     }
 
     private Car getCarFromDB(Long id) {
-        return carRepository.findById(id).orElse(null);
+        return carRepository.findById(id).orElseThrow( () -> new CustomException("Такого автомобиля нет.", HttpStatus.NOT_FOUND));
     }
 
     public CarInfoResponse getCars(Long id) {
         Car car = getCarFromDB(id);
-        if (car == null) {
+        if (car == null) { // После добавления exception car никогда не будет "null"
             car = new Car();
         }
         return mapper.convertValue(car, CarInfoResponse.class);
@@ -52,31 +54,38 @@ public class CarService {
     public CarInfoResponse updateCar(Long id, CarInfoRequest request) {
         Car car = getCarFromDB(id);
 
-        if (car != null) {
-            car.setModelName(request.getModelName() == null ? car.getModelName() : request.getModelName());
-            car.setModelVIN(request.getModelVIN() == null ? car.getModelVIN() : request.getModelVIN());
-            car.setWeight(request.getWeight() == null ? car.getWeight() : request.getWeight());
-            car.setColor(request.getColor() == null ? car.getColor() : request.getColor());
-            car.setDateMade(request.getDateMade() == null ? car.getDateMade() : request.getDateMade());
-            car.setDateSold(request.getDateSold() == null ? car.getDateSold() : request.getDateSold());
-            car.setVendor(request.getVendor() == null ? car.getVendor() : request.getVendor());
-            car.setPrice(request.getPrice() == null ? car.getPrice() : request.getPrice());
-            car.setRegNumber(request.getRegNumber() == null ? car.getRegNumber() : request.getRegNumber());
-            car.setUpdatedAt(LocalDateTime.now());
-            car.setStatus(CarStatus.UPDATED);
+        if (car != null) { // После добавления exception car никогда не будет "null"
+            if (car.getStatus()!= CarStatus.FINISHED) {
+                car.setModelName(request.getModelName() == null ? car.getModelName() : request.getModelName());
+                car.setModelVIN(request.getModelVIN() == null ? car.getModelVIN() : request.getModelVIN());
+                car.setWeight(request.getWeight() == null ? car.getWeight() : request.getWeight());
+                car.setColor(request.getColor() == null ? car.getColor() : request.getColor());
+                car.setDateMade(request.getDateMade() == null ? car.getDateMade() : request.getDateMade());
+                car.setDateSold(request.getDateSold() == null ? car.getDateSold() : request.getDateSold());
+                car.setVendor(request.getVendor() == null ? car.getVendor() : request.getVendor());
+                car.setPrice(request.getPrice() == null ? car.getPrice() : request.getPrice());
+                car.setRegNumber(request.getRegNumber() == null ? car.getRegNumber() : request.getRegNumber());
+                car.setUpdatedAt(LocalDateTime.now());
+                car.setStatus(CarStatus.UPDATED);
+            } else {
+                throw new CustomException("Изменить данные снятого с обслуживания автомобиля невозможно.", HttpStatus.I_AM_A_TEAPOT);
+            }
         }
         Car saved = carRepository.save(car);
-
         return mapper.convertValue(saved, CarInfoResponse.class);
-    }
+        }
 
     public void deleteCar(Long id) {
         Car car = getCarFromDB(id);
 
-        if (car != null) {
-            car.setUpdatedAt(LocalDateTime.now());
-            car.setStatus(CarStatus.FINISHED);
-            carRepository.save(car);
+        if (car != null) { // После добавления exception car никогда не будет "null"
+            if (car.getStatus()!= CarStatus.FINISHED) {
+                car.setUpdatedAt(LocalDateTime.now());
+                car.setStatus(CarStatus.FINISHED);
+                carRepository.save(car);
+            } else {
+                throw new CustomException("Снять с обслуживания уже снятого с обслуживания автомобиля невозможно.", HttpStatus.I_AM_A_TEAPOT);
+            }
         }
     }
 
@@ -88,10 +97,11 @@ public class CarService {
 
     public void addCar2Client(Long carId, CarToClientRequest request) {
         Car car = getCarFromDB(carId);
-        if (car != null) {
+
+        if (car != null) {  // После добавления exception car никогда не будет "null"
             if (car.getStatus() != CarStatus.FINISHED) {
                 Client client = clientService.getClientFromDB(request.getClientId());
-                if (client != null) {
+                if (client != null) { // После добавления exception client никогда не будет "null"
                     if (client.getStatus() != ClientStatus.DELETED) {
                         client.getCars().add(car);
                         clientService.updateClientData(client);
@@ -99,9 +109,11 @@ public class CarService {
                         carRepository.save(car);
                     } else {
                         // Подготовка для исключения что клиент имеет статус "Удаленный"
+                        throw new CustomException("Записать автомобиль удаленному клиенту невозможно.", HttpStatus.I_AM_A_TEAPOT);
                     }
                 } else {
                     // Подготовка для исключения что автомобиль снят с обслуживания
+                    throw new CustomException("Невозможно записать снятый с обслуживания автомобиль клиенту.", HttpStatus.I_AM_A_TEAPOT);
                 }
             }
         }

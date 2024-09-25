@@ -1,7 +1,9 @@
+// 25.09.2024
+// При вводе были перепутаны LastName и FirstName изменим
 Client Area
 {
-    "lastName":"John",
-    "firstName":"Black",
+    "lastName":"Black",
+    "firstName":"John",
     "middleName":"B.",
     "email":"john@test.com",
     "phone":"123456789",
@@ -12,9 +14,10 @@ Client Area
 }
 
 У этого клиента меняем адрес на "USA, New York"
+// 25.09.2024 удалим клиента
 {
-    "lastName":"Lisa",
-    "firstName":"White",
+    "lastName":"White",
+    "firstName":"Lisa",
     "middleName":"J.",
     "email":"lisa@test.com",
     "phone":"5234656789",
@@ -25,8 +28,8 @@ Client Area
 }
 
 {
-    "lastName":"Sten",
-    "firstName":"Buch",
+    "lastName":"Buch",
+    "firstName":"Sten",
     "middleName":"C.",
     "email":"sten@test.com",
     "phone":"0512456789",
@@ -37,8 +40,8 @@ Client Area
 }
 
 {
-    "lastName":"Alice",
-    "firstName":"Green",
+    "lastName":"Green",
+    "firstName":"Alice",
     "middleName":"W.",
     "email":"alice@test.com",
     "phone":"523199956789",
@@ -47,6 +50,19 @@ Client Area
     "age":38,
     "gender":"FEMALE"
 }
+
+{
+    "lastName":"Stone",
+    "firstName":"John",
+    "middleName":null,
+    "email":"stone@test.com",
+    "phone":"5911133956789",
+    "address":"USA, New York",
+    "password":"098765",
+    "age":28,
+    "gender":"MALE"
+}
+
 
 Car Area
 //- 1 -------------------------------------
