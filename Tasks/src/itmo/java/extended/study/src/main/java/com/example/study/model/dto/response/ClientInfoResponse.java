@@ -12,6 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class ClientInfoResponse extends ClientInfoRequest {
     Long id;
     ClientStatus status;

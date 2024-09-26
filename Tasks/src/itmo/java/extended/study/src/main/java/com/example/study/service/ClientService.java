@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ClientService {
     public static final HttpStatus HTTP_STATUS = HttpStatus.BAD_REQUEST;
-    long i=0L;
+    //long i=0L;
     private final ObjectMapper mapper;
     private final ClientRepository clientRepository;
 
@@ -140,20 +140,22 @@ public class ClientService {
 
         Client saved = clientRepository.save(client);
 
-        return mapper.convertValue(saved, ClientInfoResponse.class);
+        //return mapper.convertValue(saved, ClientInfoResponse.class);
 
         // Has been used before. To study and for a test
-        // return ClientInfoResponse.builder()
-        //         .password(request.getPassword())
-        //         .email(request.getEmail())
-        //         .age(request.getAge())
-        //         .firstName(request.getFirstName())
-        //         .lastName(request.getLastName())
-        //         .gender(request.getGender())
-        //         .phone(request.getPhone())
-        //         .address(request.getAddress())
-        //         .id(i++)
-        //         .build();
+        // При тестах нарвался на ошибку лечение которой не нашел
+        // использование builder вместо mapper помогло
+         return ClientInfoResponse.builder()
+                 .password(saved.getPassword())
+                 .email(saved.getEmail())
+                 .age(saved.getAge())
+                 .firstName(saved.getFirstName())
+                 .lastName(saved.getLastName())
+                 .gender(saved.getGender())
+                 .phone(saved.getPhone())
+                 .address(saved.getAddress())
+                 .id(saved.getId())
+                 .build();
     }
 
     public void deleteClient(Long id) {
@@ -182,13 +184,13 @@ public class ClientService {
 
     public List<CarInfoResponse> getClientCars(Long id) {
         Client client = getClientFromDB(id);
-        if(client != null) {
+    //    if(client != null) {
             List<Car> cars = client.getCars();
             return cars.stream()
                     .map(car -> mapper.convertValue(car, CarInfoResponse.class))
                     .collect(Collectors.toList());
-        }
-        return null;
+    //    }
+    //    return null;
     }
 
     public Page<ClientInfoResponse> getAllClientsByPages(Integer page,
