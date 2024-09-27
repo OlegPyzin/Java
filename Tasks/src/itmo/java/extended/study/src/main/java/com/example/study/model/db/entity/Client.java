@@ -1,6 +1,7 @@
 package com.example.study.model.db.entity;
 
 import com.example.study.model.enums.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import java.util.List;
 @Entity
 @Table(name = "clients")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

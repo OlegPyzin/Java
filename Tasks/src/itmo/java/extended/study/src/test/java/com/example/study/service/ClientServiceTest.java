@@ -127,7 +127,9 @@ public class ClientServiceTest {
 
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
-        when(clientRepository.save(any(Client.class))).thenReturn(client);
+        //when(clientRepository.save(any(Client.class))).thenReturn(client);
+        when(clientRepository.save(any(Client.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
 
         ClientInfoResponse result = clientService.updateClient(id, request);
 
@@ -155,7 +157,9 @@ public class ClientServiceTest {
 
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
-        when(clientRepository.save(any(Client.class))).thenReturn(client);
+        //when(clientRepository.save(any(Client.class))).thenReturn(client);
+        when(clientRepository.save(any(Client.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
 
         ClientInfoResponse result = clientService.updateClient(id, request);
 
@@ -220,7 +224,10 @@ public class ClientServiceTest {
         client.setId(1L);
         client.setStatus(ClientStatus.ADDED);
 
-        when(clientRepository.save(any(Client.class))).thenReturn(client);
+        //when(clientRepository.save(any(Client.class))).thenReturn(client);
+        when(clientRepository.save(any(Client.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
+
         Client result = clientService.updateClientData(client);
 
         assertEquals(client.getId(), result.getId());

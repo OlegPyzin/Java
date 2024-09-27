@@ -1,6 +1,7 @@
 package com.example.study.model.dto.request;
 
 import com.example.study.model.enums.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
@@ -14,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CarInfoRequest {
     String modelName;
     String modelVIN;
