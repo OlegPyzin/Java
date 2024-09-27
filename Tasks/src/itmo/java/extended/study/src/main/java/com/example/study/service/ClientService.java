@@ -118,6 +118,7 @@ public class ClientService {
 
         eMailValidator(request.getEmail());
         Client client = getClientFromDB(id);
+        Client saved = new Client();
 
         if (client != null) { // После добавления exception client никогда не будет "null"
             if (client.getStatus() != ClientStatus.DELETED) {
@@ -133,29 +134,32 @@ public class ClientService {
 
                 client.setUpdatedAt(LocalDateTime.now());
                 client.setStatus(ClientStatus.UPDATED);
+                saved = clientRepository.save(client);
             } else {
                 throw new CustomException("Изменить данные удаленного клиента невозможно.", HttpStatus.I_AM_A_TEAPOT);
             }
         }
 
-        Client saved = clientRepository.save(client);
-
-        //return mapper.convertValue(saved, ClientInfoResponse.class);
+        // После добавления фннотаций в Client entity
+        // @JsonSerialize(using = LocalDateTimeSerializer.class)
+        // @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+        // mapper в тестах заработал
+        return mapper.convertValue(saved, ClientInfoResponse.class);
 
         // Has been used before. To study and for a test
         // При тестах нарвался на ошибку лечение которой не нашел
         // использование builder вместо mapper помогло
-         return ClientInfoResponse.builder()
-                 .password(saved.getPassword())
-                 .email(saved.getEmail())
-                 .age(saved.getAge())
-                 .firstName(saved.getFirstName())
-                 .lastName(saved.getLastName())
-                 .gender(saved.getGender())
-                 .phone(saved.getPhone())
-                 .address(saved.getAddress())
-                 .id(saved.getId())
-                 .build();
+//         return ClientInfoResponse.builder()
+//                 .password(saved.getPassword())
+//                 .email(saved.getEmail())
+//                 .age(saved.getAge())
+//                 .firstName(saved.getFirstName())
+//                 .lastName(saved.getLastName())
+//                 .gender(saved.getGender())
+//                 .phone(saved.getPhone())
+//                 .address(saved.getAddress())
+//                 .id(saved.getId())
+//                 .build();
     }
 
     public void deleteClient(Long id) {

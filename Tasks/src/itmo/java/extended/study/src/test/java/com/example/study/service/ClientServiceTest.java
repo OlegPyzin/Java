@@ -182,7 +182,7 @@ public class ClientServiceTest {
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
         //when(clientRepository.save(any(Client.class))).thenReturn(client);
 
-        ClientInfoResponse result = clientService.updateClient(id, request);
+        clientService.updateClient(id, request);
     }
 
 
@@ -190,13 +190,14 @@ public class ClientServiceTest {
     public void deleteClient() {
         Client client = new Client();
         client.setId(1L);
-    //    client.setStatus(ClientStatus.DELETED);
-        Long id = 1L;
 
-        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
-        when(clientRepository.save(any(Client.class))).thenReturn(client);
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
+    //    when(clientRepository.save(any(Client.class))).thenReturn(client);
 
-        clientService.deleteClient(id);
+        clientService.deleteClient(client.getId());
+
+        verify(clientRepository, times(1)).save(any(Client.class));
+        assertEquals(ClientStatus.DELETED, client.getStatus());
     }
 
     @org.junit.Test(expected = CustomException.class)
@@ -204,18 +205,23 @@ public class ClientServiceTest {
         Client client = new Client();
         client.setId(1L);
         client.setStatus(ClientStatus.DELETED);
-        Long id = 1L;
 
-        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
     //    when(clientRepository.save(any(Client.class))).thenReturn(client);
 
-        clientService.deleteClient(id);
+        clientService.deleteClient(client.getId());
     }
 
 
     @org.junit.Test
     public void getAllClients() {
-        clientService.getAllClients();
+        List<Client> clients = List.of(new Client(), new Client());
+
+        when(clientRepository.findAll()).thenReturn(clients);
+
+        List<ClientInfoResponse> list = clientService.getAllClients();
+        
+        assertEquals(clients.size(), list.size());
     }
 
     @org.junit.Test
@@ -236,7 +242,7 @@ public class ClientServiceTest {
     @org.junit.Test
     public void getClientCars() {
         Long id = 1L;
-        List<Car> cars = new ArrayList<>();
+        List<Car> cars = List.of(new Car(), new Car());
         Client client = new Client();
         client.setId(1L);
         client.setCars(cars);
