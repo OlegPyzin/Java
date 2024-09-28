@@ -5,6 +5,7 @@ import com.example.study.model.db.entity.Car;
 import com.example.study.model.db.entity.Client;
 import com.example.study.model.db.repository.ClientRepository;
 import com.example.study.model.dto.request.ClientInfoRequest;
+import com.example.study.model.dto.response.CarInfoResponse;
 import com.example.study.model.dto.response.ClientInfoResponse;
 import com.example.study.model.enums.ClientStatus;
 import com.example.study.model.enums.Gender;
@@ -249,7 +250,9 @@ public class ClientServiceTest {
 
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
-        clientService.getClientCars(id);
+        List<CarInfoResponse> result = clientService.getClientCars(id);
+
+        assertEquals(cars.size(), result.size());
     }
 
     @org.junit.Test
@@ -265,6 +268,8 @@ public class ClientServiceTest {
 
         when(clientRepository.findAllByStatusNot(pageRequest, ClientStatus.DELETED)).thenReturn(list);
 
-        clientService.getAllClientsByPages( page, perPage, sort, direction, filter);
+        Page<ClientInfoResponse> result = clientService.getAllClientsByPages(page, perPage, sort, direction, filter);
+
+        assertEquals(list.getTotalElements(), result.getTotalElements());
     }
 }

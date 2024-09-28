@@ -53,6 +53,7 @@ public class CarService {
 
     public CarInfoResponse updateCar(Long id, CarInfoRequest request) {
         Car car = getCarFromDB(id);
+        Car saved = new Car();
 
         if (car != null) { // После добавления exception car никогда не будет "null"
             if (car.getStatus()!= CarStatus.FINISHED) {
@@ -67,11 +68,12 @@ public class CarService {
                 car.setRegNumber(request.getRegNumber() == null ? car.getRegNumber() : request.getRegNumber());
                 car.setUpdatedAt(LocalDateTime.now());
                 car.setStatus(CarStatus.UPDATED);
+
+                saved = carRepository.save(car);
             } else {
                 throw new CustomException("Изменить данные снятого с обслуживания автомобиля невозможно.", HttpStatus.I_AM_A_TEAPOT);
             }
         }
-        Car saved = carRepository.save(car);
         return mapper.convertValue(saved, CarInfoResponse.class);
         }
 
@@ -108,13 +110,11 @@ public class CarService {
                         car.setClient(client);
                         carRepository.save(car);
                     } else {
-                        // Подготовка для исключения что клиент имеет статус "Удаленный"
                         throw new CustomException("Записать автомобиль удаленному клиенту невозможно.", HttpStatus.I_AM_A_TEAPOT);
                     }
-                } else {
-                    // Подготовка для исключения что автомобиль снят с обслуживания
-                    throw new CustomException("Невозможно записать снятый с обслуживания автомобиль клиенту.", HttpStatus.I_AM_A_TEAPOT);
                 }
+            } else {
+                throw new CustomException("Невозможно записать снятый с обслуживания автомобиль клиенту.", HttpStatus.I_AM_A_TEAPOT);
             }
         }
     }
